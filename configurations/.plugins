@@ -1,0 +1,14 @@
+glepnir/dashboard-nvim;
+
+s1n7ax/nvim-window-picker;
+
+mason-org/mason.nvim;
+
+mfussenegger/nvim-lint;
+
+MunifTanjim/nui.nvim;
+nvim-lua/plenary.nvim;
+
+nvim-tree/nvim-web-devicons;
+
+nvim-neo-tree/neo-tree.nvim;
