@@ -16,16 +16,16 @@ local function InstallPlug()
 		}
 	);
 
-	print("Installed!");
+	vim.cmd("restart");
 end
 
 function PluginModule.Initialize()
-	local vimPlugPath = vim.fn.stdpath("data") .. "/site/autoload/plug.vim";
-	
 	local pluginsFilePath = configPath .. "/.plugins";
 	local pluginsFile = io.open(pluginsFilePath, "r");
 
-	if (vim.fn.empty(vim.fn.glob(vimPlugPath)) > 0) then
+	if vim.fn.filereadable(vimPlugPath) == 0 then
+		print("Vim-Plug is not installed!");
+
 		InstallPlug();
 	end
 
@@ -57,6 +57,7 @@ function PluginModule.Initialize()
 		end
 
 		vim.cmd('call plug#end()');
+		vim.cmd("PlugClean");
 		vim.cmd('PlugInstall');
 		vim.cmd('tabc');
 

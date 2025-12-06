@@ -36,8 +36,9 @@ end
 function Events.onVimRun()
 	windowModule.ShowWelcome();
 
-	-- why the hell is this not running properly after init the fuck???
-	windowModule.ShowFileTree();
+	vim.schedule(function ()
+		windowModule.ShowFileTree();
+	end)
 end
 
 function Events.Initialize()

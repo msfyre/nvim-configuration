@@ -9,6 +9,7 @@ end
 ---@param path string?
 function Neotree.Show(path)
 	vim.cmd("Neotree");
+	vim.cmd("cd C:");
 end
 
 return Neotree

@@ -1,6 +1,7 @@
 --!strict
 
 vimConfigPath = vim.fn.stdpath("config");
+vimPlugPath = vim.fn.stdpath("data") .. "/site/autoload/plug.vim";
 package.path = vimConfigPath .. "/?.lua;" .. vimConfigPath .. "/?/.init.lua;" .. package.path;
 
 configPath = vimConfigPath .. "/configurations"
