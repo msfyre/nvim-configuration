@@ -9,6 +9,24 @@ local WelcomeMessage = {
 
 local WindowModule = {}
 
+WindowModule.isSidebarOpen = false;
+
+function WindowModule.ToggleSidebar()
+	WindowModule.isSidebarOpen = not WindowModule.isSidebarOpen;
+	
+	if (not WindowModule.isSidebarOpen) then
+		-- initialize terminal
+		vim.cmd [[
+			botright new
+			terminal powershell
+		]];
+
+		-- initialize cava
+		vim.cmd("belowright new");
+		vim.cmd("RunCava");
+	end
+end
+
 function WindowModule.ShowFileTree()
 	neotreeModule.Show();
 end

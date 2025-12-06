@@ -10,13 +10,7 @@ local commands = {
         commandName = "ToggleSidebar",
         commandDescription = "Opens the sidebar of the client.",
         callback = function ()
-            vim.cmd [[
-                " Initialize sidebar (terminal window)
-                botright new
-                terminal powershell
-            ]]
-            vim.cmd("belowright new");
-            vim.cmd("RunCava");
+            windowModule.ToggleSidebar();
         end
     }
 }
