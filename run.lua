@@ -3,8 +3,6 @@ local Vim = {}
 function Vim.InitializeLayout()
 	print("Setting layout...");
 
-	vim.cmd("res 44.5")
-
     vim.opt.tabstop = 4;
 	vim.opt.shiftwidth = 4;
 	vim.opt.expandtab = true;

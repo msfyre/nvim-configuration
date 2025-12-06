@@ -6,7 +6,7 @@ neovideConfig.interface = {
 
 neovideConfig.font = {
 	fontFace = "BigBlueTermPlus Nerd Font Mono",
-	fontSize = 9,
+	fontSize = 10,
 }
 
 return neovideConfig
