@@ -1,6 +1,8 @@
 local Vim = {}
 
 function Vim.InitializeLayout()
+	print("Setting layout...");
+
 	vim.cmd("res 44.5")
 
     vim.opt.tabstop = 4;
@@ -11,6 +13,8 @@ function Vim.InitializeLayout()
 end
 
 function Vim.InitializeCommands()
+	print("Initializing custom commands...");
+
 	for i, command in pairs(commands) do
 		vim.api.nvim_create_user_command(
 			command.commandName,

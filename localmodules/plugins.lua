@@ -1,6 +1,6 @@
 --!strict
 
-local stringMacro = require("luaumacros.string");
+local stringMacro = require("luaumacros.stringMacro");
 
 local PluginModule = {};
 
@@ -41,6 +41,8 @@ function PluginModule.Initialize()
 		for i, plugin in ipairs(pluginsArrayNoLineBreak) do
 
             local characters = stringMacro.split(plugin, "");
+
+			print(characters[#characters]);
 
             if (plugin == "") or (characters[1] == "[" or characters[#characters] == "]") then 
 				goto continue
