@@ -42,13 +42,9 @@ function PluginModule.Initialize()
 
             local characters = stringMacro.split(plugin, "");
 
-			print(characters[#characters]);
-
             if (plugin == "") or (characters[1] == "[" or characters[#characters] == "]") then 
 				goto continue
-			end 
-
-			print("Reading plugin: " .. plugin);
+			end
 
 			local pluginString =  string.format("'%s'", plugin)
 
