@@ -6,7 +6,7 @@ neotreeConfig.filesystem = {
 	},
 	follow_current_file = {
 		enabled = true;
-	}
+	},
 }
 
 return neotreeConfig;
