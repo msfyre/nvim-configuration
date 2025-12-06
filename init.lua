@@ -2,6 +2,7 @@
 
 vimConfigPath = vim.fn.stdpath("config");
 vimPlugPath = vim.fn.stdpath("data") .. "/site/autoload/plug.vim";
+
 package.path = vimConfigPath .. "/?.lua;" .. vimConfigPath .. "/?/.init.lua;" .. package.path;
 
 configPath = vimConfigPath .. "/configurations"
@@ -20,5 +21,7 @@ neotreeModule = require("localmodules.neotree");
 
 -- Configs
 neotreeConfig = require("configurations.neotreeConfig");
+cava_config = configPath .. "/cava-config.txt";
+commands = require("configurations.commands");
 
 require("run").Run();
