@@ -39,9 +39,12 @@ function PluginModule.Initialize()
 		local pluginsArrayNoLineBreak = stringMacro.split(concatenatedArray, "\n");
 
 		for i, plugin in ipairs(pluginsArrayNoLineBreak) do
-			if (plugin == "") then 
+
+            local characters = stringMacro.split(plugin, "");
+
+            if (plugin == "") or (characters[1] == "[" or characters[#characters] == "]") then 
 				goto continue
-			end
+			end 
 
 			print("Reading plugin: " .. plugin);
 
@@ -54,6 +57,7 @@ function PluginModule.Initialize()
 			vim.cmd(command);
 
 			::continue::
+
 		end
 
 		vim.cmd('call plug#end()');
