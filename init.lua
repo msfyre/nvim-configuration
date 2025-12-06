@@ -21,6 +21,7 @@ neotreeModule = require("localmodules.neotree");
 
 -- Configs
 neotreeConfig = require("configurations.neotreeConfig");
+neovideConfig = require("configurations.neovideConfig");
 cava_config = configPath .. "/cava-config.txt";
 commands = require("configurations.commands");
 

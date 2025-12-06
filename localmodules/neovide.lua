@@ -3,9 +3,9 @@ local Neovide = {}
 function Neovide.Initialize()
 	if (not vim.g.neovide) then return end
 
-	vim.g.neovide_fullscreen = true;
+	vim.g.neovide_fullscreen = neovideConfig.interface.fullscreen;
 
-	vim.o.guifont = "BigBlueTermPlus Nerd Font Mono:h9"
+	vim.o.guifont = neovideConfig.font.fontFace .. ":h" .. neovideConfig.font.fontSize;
 end
 
 return Neovide
