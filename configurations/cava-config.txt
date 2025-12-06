@@ -1,0 +1,26 @@
+[general]
+bars = 0
+bar_width = 0.2
+bar_spacing = 0.1
+
+autosens = 1
+overshoot = 0
+
+framerate = 60
+
+[smoothing]
+gravity = 0
+noise_reduction = 50
+style = fixed
+
+[output]
+method = noncurses
+channels = mono
+mono_option = average
+height = 1
+
+show_idle_bar_heads = 0
+
+[color]
+background = '#000000'
+foreground = '#2c69c9'
