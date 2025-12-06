@@ -12,19 +12,23 @@ local WindowModule = {}
 WindowModule.isSidebarOpen = false;
 
 function WindowModule.ToggleSidebar()
-	WindowModule.isSidebarOpen = not WindowModule.isSidebarOpen;
-	
+	local newState = not WindowModule.isSidebarOpen;
+
 	if (not WindowModule.isSidebarOpen) then
 		-- initialize terminal
 		vim.cmd [[
-			botright new
+			botright vnew
 			terminal powershell
 		]];
 
 		-- initialize cava
 		vim.cmd("belowright new");
 		vim.cmd("RunCava");
+	else
+
 	end
+
+	WindowModule.isSidebarOpen = newState;
 end
 
 function WindowModule.ShowFileTree()
