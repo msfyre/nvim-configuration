@@ -5,7 +5,7 @@ function Neovide.Initialize()
 
 	vim.g.neovide_fullscreen = true;
 
-	vim.o.guifont = "BigBlueTermPlus Nerd Font Mono:h12"
+	vim.o.guifont = "BigBlueTermPlus Nerd Font Mono:h9"
 end
 
 return Neovide

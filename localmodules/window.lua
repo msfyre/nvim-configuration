@@ -18,6 +18,7 @@ function WindowModule.ToggleSidebar()
 		-- initialize terminal
 		vim.cmd [[
 			botright vnew
+			vertical resize 25
 			terminal powershell
 		]];
 
