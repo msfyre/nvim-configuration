@@ -1,1 +1,2 @@
-.vscode/
+# Package lock
+lazy-lock.json

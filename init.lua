@@ -1,30 +1,28 @@
---!strict
+-- set package.path to include the Neovim config directory
+config_path = vim.fn.stdpath('config')
 
-vimConfigPath = vim.fn.stdpath("config");
-vimPlugPath = vim.fn.stdpath("data") .. "/site/autoload/plug.vim";
+local lua_paths = {
+    config_path .. '/?.lua',
+    config_path .. '/?/init.lua',
+    config_path .. '/lua/?.lua',
+    config_path .. '/lua/?/init.lua',
+}
 
-package.path = vimConfigPath .. "/?.lua;" .. vimConfigPath .. "/?/.init.lua;" .. package.path;
+for _, p in ipairs(lua_paths) do
+    if not string.find(package.path, p, 1, true) then
+        package.path = p .. ';' .. package.path
+    end
+end
 
-configPath = vimConfigPath .. "/configurations"
+--- Modules
+-- Custom Modules
+initMod = require("lua.modules.initMod");
+neotree = require("lua.modules.neotree");
 
--- Global modules
-neovide = require("localmodules.neovide");
+-- AutoCMDs
+initMod.applyAutoCMDs();
 
-events = require("localmodules.events");
+-- Lazy
+require("config.lazy");
 
-pluginsModule = require("localmodules.plugins");
-windowModule = require("localmodules.window");
 
-LSPModule = require("localmodules.LSP");
-
-neotreeModule = require("localmodules.neotree");
-
-discordModule = require "localmodules.discord"
-
--- Configs
-neotreeConfig = require("configurations.neotreeConfig");
-neovimConfig = require("configurations.neovimConfig");
-cava_config = configPath .. "/cava-config.txt";
-commands = require("configurations.commands");
-
-require("run").Run();
