@@ -8,19 +8,23 @@ return {
 		"nvim-tree/nvim-web-devicons", -- optional, but recommended
 		},
 		lazy = false, -- neo-tree will lazily load itself
-		opts = {
-			filesystem = {
-				window = {
-					filtered_items = {
-						visible = true,
-						hide_gitignored = true,
-					},
-					mappings = {
-						["<F5>"] = "refresh",
-						["o"] = "open",
+		config = function ()
+			require("neo-tree").setup({
+				filesystem = {
+					window = {
+						filtered_items = {
+							visible = true,
+							hide_dotfiles = false,
+							hide_ignored = true,
+							hide_hidden = false,
+						},
+						mappings = {
+							["<F5>"] = "refresh",
+							["o"] = "open",
+						}
 					}
 				}
-			}
-		}
+			})
+		end
 	}
 }
