@@ -2,44 +2,43 @@ local Events = {}
 
 -- call initMod at event time to avoid circular requires / early execution
 Events.VimEnter = function()
-	require("lua.modules.initMod").applyConfigs();
-	require("lua.modules.initMod").applyTheme();
+	local initMod = require("lua.modules.initMod")
 
-	vim.cmd("let g:indent_guides_enable_on_vim_startup = 1");
+	initMod.applyConfigs()
+	initMod.applyTheme()
 
-	vim.notify("Neovim is now running!", "info", { title = "Welcome!" });
+	initMod.applyHotkeys()
+
+	vim.notify("Neovim is now running!", "info", {
+		title = "Welcome!",
+	})
 end
 
 Events.WinEnter = function()
-	vim.cmd("setlocal cursorline");
+	vim.cmd("setlocal cursorline")
 end
 
 Events.BufReadPost = function()
-	local filepath = vim.fn.expand("%:p:h");
-	
-	vim.notify(
-		"File: " .. filepath,
-		"info",
-		{
-			title = "Opened!"
-		}
-	);
+	local filepath = vim.fn.expand("%:p:h")
 
-	vim.cmd("cd " .. filepath);
+	vim.cmd("IndentGuidesEnable")
 
-	neotree.Open();
+	vim.notify("File: " .. filepath, "info", {
+		title = "Opened!",
+	})
+
+	vim.cmd("cd " .. filepath)
+
+	neotree.Open()
+	neotree.Refresh()
 end
 
 Events.BufWritePost = function()
 	local filepath = vim.fn.expand("%:p:h")
 
-	vim.notify(
-		"[File]: " .. filepath,
-		"info",
-		{
-			title = "Saved!"
-		}
-	);
+	vim.notify("[File]: " .. filepath, "info", {
+		title = "Saved!",
+	})
 end
 
 return Events
