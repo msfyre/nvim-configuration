@@ -40,7 +40,7 @@ local hotkeys = {
 		},
 		terminal = {
 			{
-				hotkey = "<Esc>",
+				hotkey = "<C-[>",
 				action = function()
 					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
 				end,
