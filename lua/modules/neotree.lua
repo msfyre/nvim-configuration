@@ -69,4 +69,23 @@ function neotree.Close()
     log("Closed!", "Neotree closed.", "Info");
 end
 
+function neotree.Toggle()
+	if (neotree.isOpen) then
+		neotree.Close();
+	else
+		neotree.Open();
+	end
+end
+
+function neotree.Refresh()
+	if (neotree.isOpen and neotree.activeWindow ~= nil and vim.api.nvim_win_is_valid(neotree.activeWindow)) then
+		vim.api.nvim_set_current_win(neotree.activeWindow);
+		vim.cmd("Neotree action=refresh")
+
+		vim.notify("Refreshed!", "info", {
+			title = "Neotree"
+		})
+	end
+end
+
 return neotree
