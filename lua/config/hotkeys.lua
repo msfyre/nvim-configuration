@@ -6,7 +6,6 @@ local hotkeys = {
 				hotkey = "<C-S>",
 				action = function()
 					vim.cmd("w")
-					vim.notify("File saved!.", vim.log.levels.INFO, { title = "Saved!" })
 				end,
 				{
 					desc = "Save your progress",
@@ -46,8 +45,8 @@ local hotkeys = {
 					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
 				end,
 				{
-					desc = "Easily free yourself from a terminal window."
-				}
+					desc = "Easily free yourself from a terminal window.",
+				},
 			},
 		},
 	},
