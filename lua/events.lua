@@ -23,9 +23,7 @@ Events.BufReadPost = function()
 
 	vim.cmd("IndentGuidesEnable")
 
-	vim.notify("File: " .. filepath, "info", {
-		title = "Opened!",
-	})
+	vim.notify("File:\n" .. filepath, "info", { title = "Loaded" })
 
 	vim.cmd("cd " .. filepath)
 
