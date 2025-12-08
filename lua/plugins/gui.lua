@@ -1,15 +1,15 @@
 return {
 	-- Dashboard
 	{
-		'nvimdev/dashboard-nvim',
-		event = 'VimEnter',
+		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
 		config = function()
 			-- determine config file and directory safely
-			local config_file = vim.env.MYVIMRC or (vim.fn.stdpath('config') .. '/init.lua')
-			local config_dir = vim.fn.fnamemodify(config_file, ':h')
+			local config_file = vim.env.MYVIMRC or (vim.fn.stdpath("config") .. "/init.lua")
+			local config_dir = vim.fn.fnamemodify(config_file, ":h")
 
-			require('dashboard').setup {
-				theme = 'hyper',
+			require("dashboard").setup({
+				theme = "hyper",
 				disable_move = true,
 				config = {
 					header = {
@@ -17,14 +17,14 @@ return {
 					},
 					packages = { enable = true },
 					footer = {
-						"This setup is made by Moonstone Fyre (github.com/msfyre)"
-					}
+						"This setup is made by Moonstone Fyre (github.com/msfyre)",
+					},
 				},
-			}
+			})
 		end,
 		dependencies = {
-			'nvim-tree/nvim-web-devicons'
-		}
+			"nvim-tree/nvim-web-devicons",
+		},
 	},
 	-- CMD Line
 	{
@@ -34,7 +34,7 @@ return {
 			"nvim-notify",
 			"nvim-treesitter",
 		},
-		config = function ()
+		config = function()
 			require("noice").setup({
 				lsp = {
 					override = {
@@ -47,13 +47,22 @@ return {
 					view = "cmdline_popup",
 					format = {
 						cmdline = { title = "Command Prompt" },
-					}
-				}
+					},
+				},
 			})
-		end
+		end,
 	},
 	-- Indent guides
 	{
 		"preservim/vim-indent-guides",
+		config = function()
+			local indentTheme = require("themes.indents")
+
+			local oddConfigCMD = string.format("hi IndentGuidesOdd guibg=%s", indentTheme.odd.background)
+			local evenConfigCMD = string.format("hi IndentGuidesEven guibg=%s", indentTheme.even.background)
+
+			vim.cmd(oddConfigCMD)
+			vim.cmd(evenConfigCMD)
+		end,
 	},
 }
