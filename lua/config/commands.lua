@@ -20,7 +20,10 @@ local commands = {
 	{
 		command = "RunCava",
 		callback = function()
-			vim.cmd("terminal powershell cava")
+			local cavaConfig = config_path .. "/lua/config/cava_config.txt"
+
+			vim.cmd("terminal powershell cava -p " .. cavaConfig)
+			vim.cmd("IndentGuidesDisable")
 		end,
 	},
 }

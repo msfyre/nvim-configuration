@@ -1,0 +1,11 @@
+[general]
+
+autosens = 1
+
+bars = 0
+bar_width = 0
+bar_spacing = 0
+
+[output]
+
+method = noncurses
