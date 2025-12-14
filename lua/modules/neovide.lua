@@ -1,27 +1,38 @@
-local neovimConfig = require("config.neovim")
+local neovideConfig = require("lua.config.neovide")
 
 local neovide = {}
 
 function neovide.applyConfig()
-	-- defensive checks
-    if type(neovimConfig) ~= "table" then
-        vim.notify("neovide: config.neovide did not return a table", vim.log.levels.ERROR)
-        return
+	
+    if type(neovideConfig) ~= "table" then
+        return vim.notify("neovide: config.neovide did not return a table", vim.log.levels.ERROR)
     end
 
-	local fontConfig = neovimConfig.font or {}
-	local editorConfig = neovimConfig.editor or {}
-	local windowConfig = neovimConfig.window or {}
-	local cursorConfig = neovimConfig.window.cursor or {}
+	local fontConfig = neovideConfig.font or {}
+	local editorConfig = neovideConfig.editor or {}
+	local windowConfig = neovideConfig.window or {}
 
 	local function applyWindowConfig()
 		if windowConfig.fullscreen ~= nil then
-			vim.g.neovide_fullscreen = windowConfig.fullscreen;
+			vim.g.neovide_fullscreen = windowConfig.fullscreen
+		end
+
+		if fontConfig.fontface and fontConfig.fontsize then
+			vim.g.neovide_font = string.format("%s:h%i", fontConfig.fontface, fontConfig.fontsize)
+		end
+
+		if fontConfig.antialias ~= nil then
+			vim.g.neovide_antialiasing = fontConfig.antialias
+		end
+
+		if (windowConfig.bgtransparency ~= nil) then
+			vim.g.neovide_normal_opacity = windowConfig.bgtransparency;
+		end
+
+		if (windowConfig.blurred ~= nil) then
+			vim.g.neovide_window_blurred = windowConfig.blurred
 		end
 	end
-
-	--- TODO: create a functional function that applies the cursor config in the editor
-	--- (msfyre) 12/8/2025
 
 	local function applyEditorConfig()
 		if editorConfig.tabsize then
@@ -37,16 +48,8 @@ function neovide.applyConfig()
 			vim.o.wrap = editorConfig.wrapLines
 		end
 
-		if windowConfig.fullscreen ~= nil then
-			vim.g.neovide_fullscreen = windowConfig.fullscreen
-		end
-
-		if fontConfig.fontface and fontConfig.fontsize then
-			vim.g.neovide_font = string.format("%s:h%i", fontConfig.fontface, fontConfig.fontsize)
-		end
-
-		if fontConfig.antialias ~= nil then
-			vim.g.neovide_antialiasing = fontConfig.antialias
+		if editorConfig.hideMouseWhenTyping ~= nil then
+			vim.g.neovide_hide_mouse_when_typing = editorConfig.hideMouseWhenTyping
 		end
 	end
 

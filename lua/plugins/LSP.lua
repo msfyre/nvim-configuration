@@ -1,5 +1,5 @@
 return {
-	-- Mason
+	--#region Mason
 	{
 		"mason-org/mason.nvim",
 		config = function()
@@ -16,7 +16,8 @@ return {
 			require("mason-lspconfig").setup()
 		end,
 	},
-	-- Linting & Formatting
+	--#endregion
+	--#region Linting & Formatting
 	{
 		"mfussenegger/nvim-lint",
 		event = { "BufEnter", "BufWritePost" },
@@ -58,7 +59,8 @@ return {
 			})
 		end,
 	},
-	-- Autocompletion
+	--#endregion
+	--#region Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -70,68 +72,80 @@ return {
 			"onsails/lspkind.nvim",
 			"rafamadriz/friendly-snippets",
 		},
+		event = { "BufReadPost", "InsertEnter" },
 		config = function()
 			local cmp = require("cmp")
-
 			local luasnip = require("luasnip")
 
-			local lspkind = require("lspkind")
+			local lazyLoadSuccess, result = pcall(function ()
+				return require("luasnip.loaders.from_vscode").lazy_load()
+			end)
 
-			require("luasnip.loaders.from_vscode").lazy_load()
+			if (lazyLoadSuccess) then
+				vim.notify("Loaded!", "info", {
+					title = "CMP Snippets"
+				})
+			end
 
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
+			local setupSuccess, result = pcall(function()
+				local opts = {
+					snippet = {
+						expand = function(args)
+							luasnip.lsp_expand(args.body)
+						end,
+					},
 
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol_text",
-						maxwidth = 50,
-						ellipsis_char = "...",
+					window = {
+						completion = cmp.config.window.bordered(),
+						documentation = cmp.config.window.bordered(),
+					},
+
+					mapping = cmp.mapping.preset.insert({
+						["<C-Space>"] = cmp.mapping.complete(),
+						["<CR>"] = cmp.mapping.confirm({ select = true }),
+						["<C-e>"] = cmp.mapping.abort(),
+
+						["<Tab>"] = cmp.mapping(function(fallback)
+							if cmp.visible() then
+								cmp.select_next_item()
+							elseif luasnip.expand_or_jumpable() then
+								luasnip.expand_or_jump()
+							else
+								fallback()
+							end
+						end, { "i", "s" }),
+
+						["<S-Tab>"] = cmp.mapping(function(fallback)
+							if cmp.visible() then
+								cmp.select_prev_item()
+							elseif luasnip.jumpable(-1) then
+								luasnip.jump(-1)
+							else
+								fallback()
+							end
+						end, { "i", "s" }),
 					}),
-				},
 
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
+					sources = cmp.config.sources({
+						{ name = "nvim_lsp" },
+						{ name = "luasnip" },
+						{ name = "path" },
+						{ name = "buffer" },
+					}),
+				}
+				
+				return cmp.setup(opts)
+			end)
 
-				mapping = cmp.mapping.preset.insert({
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<C-e>"] = cmp.mapping.abort(),
-
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}),
-
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "path" },
-					{ name = "buffer" },
-				}),
-			})
+			if (setupSuccess) then
+				vim.notify("Success!", "info", {
+					title = "CMP"
+				})
+			else
+				vim.notify("Error: " .. result, "warn", {
+					title = "(CMP) Something went wrong!"
+				})
+			end
 
 			vim.lsp.config("lua_ls", {
 				settings = {
@@ -152,14 +166,27 @@ return {
 		config = function()
 			local cmp = require("cmp")
 
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "path" }, -- For file path completion
-				}, {
-					{ name = "cmdline" }, -- For Neovim command completion
-				}),
-			})
+			local setupSuccess, result = pcall(function ()
+				return cmp.setup.cmdline(":", {
+					mapping = cmp.mapping.preset.cmdline(),
+					sources = cmp.config.sources({
+						{ name = "path" }, -- For file path completion
+					}, {
+						{ name = "cmdline" }, -- For Neovim command completion
+					}),
+				})
+			end)
+
+			if (setupSuccess) then
+				vim.notify("Ready!", "info", {
+					title = "Command Autocomplete"
+				})
+			else
+				vim.notify("Error: " .. result, "warn", {
+					title = "(CMD Autocomplete) Something went wrong!"
+				})
+			end
 		end,
 	},
+	--#endregion
 }

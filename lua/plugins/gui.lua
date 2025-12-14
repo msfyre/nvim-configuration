@@ -1,68 +1,41 @@
 return {
-	-- Dashboard
+	--#region Notifications
 	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
+		"rcarriga/nvim-notify",
 		config = function()
-			-- determine config file and directory safely
-			local config_file = vim.env.MYVIMRC or (vim.fn.stdpath("config") .. "/init.lua")
-			local config_dir = vim.fn.fnamemodify(config_file, ":h")
+			local notify = require("notify")
 
-			require("dashboard").setup({
-				theme = "hyper",
-				disable_move = true,
-				config = {
-					header = {
-						"NEOVIM (c) 2015-2025",
-					},
-					packages = { enable = true },
-					footer = {
-						"This setup is made by Moonstone Fyre (github.com/msfyre)",
-					},
-				},
+			notify.setup({
+				-- Configuration
+				fps = 60,
+				top_down = false,
 			})
-		end,
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
+
+			vim.notify = notify.notify;
+		end
 	},
-	-- CMD Line
+	--#endregion
+	--#region Status Line
 	{
-		"folke/noice.nvim",
-		dependencies = {
-			"nui.nvim",
-			"nvim-notify",
-			"nvim-treesitter",
-		},
-		config = function()
-			require("noice").setup({
-				lsp = {
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				cmdline = {
-					view = "cmdline_popup",
-					format = {
-						cmdline = { title = "Command Prompt" },
-					},
-				},
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		config = function ()
+			require("lualine").setup({
+				options = {
+					theme = "iceberg_dark"
+				}
 			})
-		end,
+		end
 	},
-	-- Indent guides
+	--#endregion
+	--#region File Explorer
 	{
-		"preservim/vim-indent-guides",
-		config = function()
-			local indentTheme = require("themes.indents")
-
-			local oddConfigCMD = string.format("hi IndentGuidesOdd guibg=%s", indentTheme.odd.background)
-			local evenConfigCMD = string.format("hi IndentGuidesEven guibg=%s", indentTheme.even.background)
-
-			vim.cmd(oddConfigCMD)
-			vim.cmd(evenConfigCMD)
-		end,
-	},
+		"nvim-neo-tree/neo-tree.nvim",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		lazy = false
+	}
+	--#endregion
 }

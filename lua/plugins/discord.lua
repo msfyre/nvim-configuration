@@ -1,10 +1,15 @@
 return {
 	"vyfor/cord.nvim",
 	build = ":Cord update",
-	event = "VimEnter",
-	opts = {
-		display = {
-			theme = "catpuccin",
-		},
-	},
+	config = function()
+		require("cord").setup({
+			text = {
+				lsp = "Modifying LSPs in ${lspmanager}...",
+				docs = '"Hol\' on... let me read the docs..."'
+			},
+			variables = {
+				lspmanager = "Mason"
+			}
+		})
+	end
 }

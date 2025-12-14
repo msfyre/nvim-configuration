@@ -5,7 +5,7 @@ local hotkeys = {
 			{
 				hotkey = "<C-S>",
 				action = function()
-					vim.cmd("w")
+					vim.cmd("w!")
 				end,
 				{
 					desc = "Save your progress",
@@ -23,9 +23,29 @@ local hotkeys = {
 			{
 				hotkey = "<leader>e",
 				action = function()
-					require("lua.modules.neotree").Toggle()
+					local success, neotree_module = pcall(function()
+						return require("lua.modules.neotree");
+					end);
+					
+					if (success) then
+						neotree_module.Toggle()
+					else
+						vim.notify("Not found!", "error", {
+							title = "Neotree Module"
+						})
+					end
 				end,
 			},
+			{
+				hotkey = "<F11>",
+				action = function ()
+					if (vim.g.neovide) then
+						local isFullscreen = vim.g.neovide_fullscreen
+						
+						vim.g.neovide_fullscreen = not isFullscreen
+					end
+				end
+			}
 		},
 		visual = {
 			{
@@ -43,6 +63,10 @@ local hotkeys = {
 				hotkey = "<C-[>",
 				action = function()
 					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
+
+					vim.notify("Escaped the terminal.", "info", {
+						title = "Terminal",
+					})
 				end,
 				{
 					desc = "Easily free yourself from a terminal window.",

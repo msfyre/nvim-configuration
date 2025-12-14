@@ -1,3 +1,4 @@
 return {
-	"catppuccin/nvim"
+	"scottmckendry/cyberdream.nvim",
+	"catppuccin/nvim",
 }

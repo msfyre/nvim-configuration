@@ -1,42 +1,16 @@
 local Events = {}
 
--- call initMod at event time to avoid circular requires / early execution
-Events.VimEnter = function()
-	local initMod = require("lua.modules.initMod")
+Events.VimEnter = function ()
+	local initMod = require("lua.modules.init");
 
-	initMod.applyConfigs()
-	initMod.applyTheme()
+	initMod.applyOverrides();
 
-	initMod.applyHotkeys()
+	-- Boot lazy
+	require("config.lazy")
 
-	vim.notify("Neovim is now running!", "info", {
-		title = "Welcome!",
-	})
-end
-
-Events.WinEnter = function()
-	vim.cmd("setlocal cursorline")
-end
-
-Events.BufReadPost = function()
-	local filepath = vim.fn.expand("%:p:h")
-
-	vim.cmd("IndentGuidesEnable")
-
-	vim.notify("File:\n" .. filepath, "info", { title = "Loaded" })
-
-	vim.cmd("cd " .. filepath)
-
-	neotree.Open()
-	neotree.Refresh()
-end
-
-Events.BufWritePost = function()
-	local filepath = vim.fn.expand("%:p:h")
-
-	vim.notify("[File]: " .. filepath, "info", {
-		title = "Saved!",
-	})
+	initMod.applyHotkeys();
+	initMod.applyConfigs();
+	initMod.applyTheme();
 end
 
 return Events

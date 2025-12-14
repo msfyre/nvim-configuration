@@ -14,17 +14,6 @@ for _, p in ipairs(lua_paths) do
 	end
 end
 
---- Modules
+local initMod = require("lua.modules.init")
 
--- Custom Modules
-initMod = require("lua.modules.initMod")
-neotree = require("lua.modules.neotree")
-
--- AutoCMDs
-initMod.applyAutoCMDs()
-
--- Lazy
-require("config.lazy")
-
--- Plugins
-echo = require("echo")
+initMod.applyAutoCMDs();
