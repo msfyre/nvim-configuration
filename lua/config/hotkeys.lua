@@ -37,6 +37,20 @@ local hotkeys = {
 				end,
 			},
 			{
+				hotkey = "<leader>t",
+				action = function()
+					local current = vim.fn.getcwd()
+					-- initiate window
+					vim.cmd([[
+						botright vnew
+						vertical resize 50
+					]])
+
+					-- run powershell
+					vim.cmd('terminal powershell -NoExit -Command Set-Location "' .. current .. '"')
+				end,
+			},
+			{
 				hotkey = "<F11>",
 				action = function()
 					if vim.g.neovide then
@@ -49,7 +63,7 @@ local hotkeys = {
 		},
 		visual = {
 			{
-				hotkey = "<C-c>",
+				hotkey = "<M-c>",
 				action = function()
 					vim.cmd('"+y')
 				end,
