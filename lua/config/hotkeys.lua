@@ -28,7 +28,7 @@ local hotkeys = {
 					end)
 
 					if success then
-						vim.cmd("Oil");
+						oil.toggle_float()
 					else
 						vim.notify("The plugin is not installed!", "error", {
 							title = "oil.nvim",
@@ -55,6 +55,17 @@ local hotkeys = {
 				end,
 				{
 					desc = "Copy selected text.",
+				},
+			},
+		},
+		insert = {
+			{
+				hotkey = "<C-S>",
+				action = function()
+					vim.cmd("w!")
+				end,
+				{
+					desc = "Save your progress",
 				},
 			},
 		},
