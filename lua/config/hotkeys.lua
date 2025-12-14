@@ -23,37 +23,17 @@ local hotkeys = {
 			{
 				hotkey = "<leader>e",
 				action = function()
-					local current = vim.fn.getcwd()
-
 					local success, oil = pcall(function()
 						return require("oil")
 					end)
 
 					if success then
-						oil.toggle_float(current)
+						vim.cmd("Oil");
 					else
 						vim.notify("The plugin is not installed!", "error", {
 							title = "oil.nvim",
 						})
 					end
-				end,
-				{
-					desc = "Open the file explorer. (oil.nvim)",
-				},
-			},
-			{
-				hotkey = "<leader>t",
-				action = function()
-					local current = vim.fn.getcwd()
-
-					-- Initialize window
-					vim.cmd([[
-						botright vnew
-						vertical resize 45
-					]])
-
-					-- Run terminal
-					vim.cmd("terminal powershell -NoExit -Command \"Set-Location '" .. current .. "'")
 				end,
 			},
 			{
@@ -65,17 +45,6 @@ local hotkeys = {
 						vim.g.neovide_fullscreen = not isFullscreen
 					end
 				end,
-			},
-		},
-		insert = {
-			{
-				hotkey = "<C-S>",
-				action = function()
-					vim.cmd("w!")
-				end,
-				{
-					desc = "Save your progress",
-				},
 			},
 		},
 		visual = {
@@ -91,7 +60,7 @@ local hotkeys = {
 		},
 		terminal = {
 			{
-				hotkey = "<C-[>",
+				hotkey = "<Esc>",
 				action = function()
 					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
 
