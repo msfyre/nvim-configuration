@@ -23,29 +23,29 @@ local hotkeys = {
 			{
 				hotkey = "<leader>e",
 				action = function()
-					local success, neotree_module = pcall(function()
-						return require("lua.modules.neotree");
-					end);
-					
-					if (success) then
-						neotree_module.Toggle()
+					local success, oil = pcall(function()
+						return require("oil")
+					end)
+
+					if success then
+						vim.cmd("Oil");
 					else
-						vim.notify("Not found!", "error", {
-							title = "Neotree Module"
+						vim.notify("The plugin is not installed!", "error", {
+							title = "oil.nvim",
 						})
 					end
 				end,
 			},
 			{
 				hotkey = "<F11>",
-				action = function ()
-					if (vim.g.neovide) then
+				action = function()
+					if vim.g.neovide then
 						local isFullscreen = vim.g.neovide_fullscreen
-						
+
 						vim.g.neovide_fullscreen = not isFullscreen
 					end
-				end
-			}
+				end,
+			},
 		},
 		visual = {
 			{
