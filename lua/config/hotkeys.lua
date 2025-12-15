@@ -121,11 +121,9 @@ local hotkeys = {
 			{
 				hotkey = "<Esc>",
 				action = function()
-					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
+					local terminal_module = require("modules.terminal")
 
-					vim.notify("Escaped the terminal.", "info", {
-						title = "Terminal",
-					})
+					terminal_module.Escape()
 				end,
 				{
 					desc = "Easily free yourself from a terminal window.",
