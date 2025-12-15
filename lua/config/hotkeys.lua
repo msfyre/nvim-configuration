@@ -1,3 +1,5 @@
+-- TODO: Reformat all of this bullshit
+-- (@msfyre, 12/14/2025)
 local hotkeys = {
 	leader = " ",
 	mappings = {
@@ -9,6 +11,15 @@ local hotkeys = {
 				end,
 				{
 					desc = "Save your progress",
+				},
+			},
+			{
+				hotkey = "<leader><C-S>",
+				action = function()
+					vim.cmd("wa!")
+				end,
+				{
+					desc = "Save all",
 				},
 			},
 			{
@@ -39,15 +50,9 @@ local hotkeys = {
 			{
 				hotkey = "<leader>t",
 				action = function()
-					local current = vim.fn.getcwd()
-					-- initiate window
-					vim.cmd([[
-						botright vnew
-						vertical resize 50
-					]])
+					local terminal_module = require("modules.terminal")
 
-					-- run powershell
-					vim.cmd('terminal powershell -NoExit -Command Set-Location "' .. current .. '"')
+					terminal_module.Toggle()
 				end,
 			},
 			{
@@ -71,6 +76,26 @@ local hotkeys = {
 					desc = "Copy selected text.",
 				},
 			},
+			{
+				hotkey = "<Tab>",
+				action = function()
+					-- get all selected text
+					local selection_module = require("lua.modules.selection")
+					local selection = selection_module:Get()
+
+					local replaced = {}
+
+					if selection ~= nil then
+						for i, line in ipairs(selection.lines) do
+							replaced[i] = "\t" .. line
+						end
+
+						local buffer = vim.api.nvim_get_current_buff()
+
+						vim.api.nvim_buf_set_lines(buffer, selection.start_row - 1, selection.end_row, false, replaced)
+					end
+				end,
+			},
 		},
 		insert = {
 			{
@@ -80,6 +105,15 @@ local hotkeys = {
 				end,
 				{
 					desc = "Save your progress",
+				},
+			},
+			{
+				hotkey = "<leader><C-S>",
+				action = function()
+					vim.cmd("wa!")
+				end,
+				{
+					desc = "Save all",
 				},
 			},
 		},
