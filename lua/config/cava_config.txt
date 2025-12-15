@@ -4,8 +4,23 @@ autosens = 1
 
 bars = 0
 bar_width = 0
+
+overshoot = 0
+
+# Bar Configuration
+bars = 0
+bar_width = 0.5
 bar_spacing = 0
 
 [output]
 
 method = noncurses
+
+channels = mono
+mono_option = average
+reverse = 0
+
+[color]
+
+background = #FFFFFF
+
