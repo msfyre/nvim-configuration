@@ -90,7 +90,7 @@ local hotkeys = {
 							replaced[i] = "\t" .. line
 						end
 
-						local buffer = vim.api.nvim_get_current_buff()
+						local buffer = vim.api.nvim_get_current_buf()
 
 						vim.api.nvim_buf_set_lines(buffer, selection.start_row - 1, selection.end_row, false, replaced)
 					end
