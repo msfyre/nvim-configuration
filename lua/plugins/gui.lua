@@ -28,14 +28,4 @@ return {
 		end
 	},
 	--#endregion
-	--#region File Explorer
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-		lazy = false
-	}
-	--#endregion
 }
