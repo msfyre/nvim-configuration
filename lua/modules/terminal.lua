@@ -1,6 +1,8 @@
+local verifier = require("modules.verifier")
+
 local terminal = {}
 
-terminal.IsOpened = false
+terminal.IsOpened = verifier.VerifyWindow(terminal.Window)
 
 terminal.Window = nil
 terminal.Buffer = nil
@@ -22,7 +24,7 @@ function terminal.Escape()
 end
 
 function terminal.Open()
-	if terminal.IsOpened == false and (terminal.Window == nil) then
+	if terminal.IsOpened == false then
 		-- initiate window
 		vim.cmd([[
 			botright vnew
@@ -31,18 +33,17 @@ function terminal.Open()
 
 		terminal.Window = vim.api.nvim_get_current_win()
 
+		-- Open a new terminal window if no terminal buffer exists.
+		-- Else, open that buffer instead.
 		if terminal.Buffer == nil then
 			OpenNew()
 		else
-			-- Open the existing buffer
 			vim.cmd("buffer" .. terminal.Buffer)
 		end
-
-		terminal.IsOpened = true
 	end
 end
 function terminal.Close()
-	if terminal.IsOpened == true and (terminal.Window ~= nil) then
+	if terminal.IsOpened == true then
 		-- move to terminal window
 		vim.api.nvim_set_current_win(terminal.Window)
 
@@ -55,11 +56,12 @@ function terminal.Close()
 		vim.cmd("q")
 
 		terminal.Window = nil
-		terminal.IsOpened = false
 	end
 end
 function terminal.Toggle()
-	if terminal.IsOpened == false or terminal.Window == nil then
+	terminal.IsOpened = verifier.VerifyWindow(terminal.Window)
+
+	if terminal.IsOpened == false or not terminal.IsOpened then
 		terminal.Open()
 	else
 		terminal.Close()
