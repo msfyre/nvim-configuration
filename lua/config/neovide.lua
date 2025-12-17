@@ -1,10 +1,10 @@
 return {
 	font = {
-		fontface = "JetBrains Mono",
+		fontface = "Agave Nerd Font",
 		fontsize = 10,
 		antialias = true,
 		italicized = false,
-		bold = false
+		bold = false,
 	},
 	editor = {
 		tabsize = 4,
@@ -13,9 +13,9 @@ return {
 		hideMouseWhenTyping = true,
 	},
 	window = {
-		fullscreen = false,
+		fullscreen = true,
 		theme = "cyberdream",
 		bgtransparency = 0.8,
 		blurred = false,
-	}
+	},
 }
