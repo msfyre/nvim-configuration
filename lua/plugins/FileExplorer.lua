@@ -17,16 +17,41 @@ return {
 				},
 				keymaps = {
 					["g?"] = { "actions.show_help", mode = "n" },
-					["<BS>"] = { "actions.parent", mode = "n" },
-					["<CR>"] = {
+					["<BS>"] = {
 						function()
-							local current = require("oil").get_current_dir()
 							local actions = require("oil.actions")
 
-							vim.cmd("cd " .. current)
-							actions.select.callback()
+							actions.parent.callback()
+						end,
+						mode = "n",
+					},
+					["<CR>"] = {
+						function()
+							local oil = require("oil")
+							local oil_actions = require("oil.actions")
+
+							local entry = oil.get_cursor_entry()
+							local ent_dir = oil.get_current_dir()
+
+							local success, result = pcall(function()
+								return oil_actions.select.callback()
+							end)
+
+							if success and entry then
+								local path = ent_dir .. entry.name
+
+								if entry.type == "directory" then
+									vim.cmd("cd " .. path)
+								else
+									vim.cmd("e " .. path)
+								end
+							end
 						end,
 					},
+				},
+				float = {
+					max_width = 0.75,
+					max_height = 0.75,
 				},
 			})
 		end,
