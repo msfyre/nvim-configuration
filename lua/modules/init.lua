@@ -3,7 +3,7 @@ local init = {}
 function init.applyTheme()
 	local neovide_config = require("lua.config.neovide")
 
-	vim.cmd.colorscheme(neovide_config.window.theme);
+	vim.cmd.colorscheme(neovide_config.window.theme)
 end
 
 function init.applyConfigs()
@@ -22,39 +22,33 @@ function init.applyAutoCMDs()
 end
 
 function init.applyHotkeys()
-	local hotkeys = require("config.hotkeys")
-
-	local keymaps = hotkeys.mappings
+	local hotkeys = require("lua.config.hotkeys")
 
 	vim.cmd("mapclear!")
 
-	for mode, keymaps in pairs(keymaps) do
-		local string_macros = require("lua.luaumacros.string_macros")
-
-		local vim_mode = string_macros.split(mode)[1]
-
-		for i, keymap in pairs(keymaps) do
-			vim.keymap.set(vim_mode, keymap.hotkey, keymap.action)
+	for i, keymap in pairs(hotkeys.mappings) do
+		for i, mode in pairs(keymap.modes) do
+			vim.keymap.set(mode, keymap.hotkey, keymap.action)
 		end
 	end
 end
 
 function init.applyOverrides()
 	-- Reset all
-	vim.cmd("set all&");
+	vim.cmd("set all&")
 
 	local overrides = require("lua.config.overrides")
-	local success, neotree = pcall(function ()
+	local success, neotree = pcall(function()
 		return require("neotree")
 	end)
 
-	if (overrides.disable_netrw and not success) then
+	if overrides.disable_netrw and not success then
 		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
 
 		vim.notify("NetRW disabled.", "info", {
 			title = "Overrides",
-		});
+		})
 	end
 end
 
