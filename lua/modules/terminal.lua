@@ -2,7 +2,8 @@ local verifier = require("modules.verifier")
 
 local terminal = {}
 
-terminal.IsOpened = verifier.VerifyWindow(terminal.Window)
+terminal.IsWindowOpen = verifier.VerifyWindow(terminal.Window)
+terminal.IsBufferOpen = verifier.VerifyBuffer(terminal.Buffer)
 
 terminal.Window = nil
 terminal.Buffer = nil
@@ -16,15 +17,19 @@ local function OpenNew()
 end
 
 function terminal.Escape()
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
+	local success, result = pcall(function()
+		return vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "t", false)
+	end)
 
-	vim.notify("Escaped the terminal.", "info", {
-		title = "Terminal",
-	})
+	if success then
+		vim.notify("Escaped the terminal.", "info", {
+			title = "Terminal",
+		})
+	end
 end
 
 function terminal.Open()
-	if terminal.IsOpened == false then
+	if terminal.IsWindowOpen == false then
 		-- initiate window
 		vim.cmd([[
 			botright vnew
@@ -35,7 +40,7 @@ function terminal.Open()
 
 		-- Open a new terminal window if no terminal buffer exists.
 		-- Else, open that buffer instead.
-		if terminal.Buffer == nil then
+		if not terminal.IsBufferOpen then
 			OpenNew()
 		else
 			vim.cmd("buffer" .. terminal.Buffer)
@@ -43,7 +48,7 @@ function terminal.Open()
 	end
 end
 function terminal.Close()
-	if terminal.IsOpened == true then
+	if terminal.IsWindowOpen == true then
 		-- move to terminal window
 		vim.api.nvim_set_current_win(terminal.Window)
 
@@ -59,9 +64,10 @@ function terminal.Close()
 	end
 end
 function terminal.Toggle()
-	terminal.IsOpened = verifier.VerifyWindow(terminal.Window)
+	terminal.IsWindowOpen = verifier.VerifyWindow(terminal.Window)
+	terminal.IsBufferOpen = verifier.VerifyBuffer(terminal.Buffer)
 
-	if terminal.IsOpened == false or not terminal.IsOpened then
+	if terminal.IsWindowOpen == false or not terminal.IsWindowOpen then
 		terminal.Open()
 	else
 		terminal.Close()
