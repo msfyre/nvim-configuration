@@ -1,12 +1,14 @@
+--!strict
 local neovideConfig = require("lua.config.neovide")
+
+local verifier = require("modules.verifier")
 
 local neovide = {}
 
 function neovide.applyConfig()
-	
-    if type(neovideConfig) ~= "table" then
-        return vim.notify("neovide: config.neovide did not return a table", vim.log.levels.ERROR)
-    end
+	if type(neovideConfig) ~= "table" then
+		return vim.notify("neovide: config.neovide did not return a table", vim.log.levels.ERROR)
+	end
 
 	local fontConfig = neovideConfig.font or {}
 	local editorConfig = neovideConfig.editor or {}
@@ -17,23 +19,14 @@ function neovide.applyConfig()
 			vim.g.neovide_fullscreen = windowConfig.fullscreen
 		end
 
-		if fontConfig.fontface and fontConfig.fontsize then
-			vim.g.neovide_font = string.format("%s:h%i", fontConfig.fontface, fontConfig.fontsize)
+		if windowConfig.bgtransparency ~= nil then
+			vim.g.neovide_normal_opacity = windowConfig.bgtransparency
 		end
 
-		if fontConfig.antialias ~= nil then
-			vim.g.neovide_antialiasing = fontConfig.antialias
-		end
-
-		if (windowConfig.bgtransparency ~= nil) then
-			vim.g.neovide_normal_opacity = windowConfig.bgtransparency;
-		end
-
-		if (windowConfig.blurred ~= nil) then
+		if windowConfig.blurred ~= nil then
 			vim.g.neovide_window_blurred = windowConfig.blurred
 		end
 	end
-
 	local function applyEditorConfig()
 		if editorConfig.tabsize then
 			vim.o.tabstop = editorConfig.tabsize
@@ -54,36 +47,45 @@ function neovide.applyConfig()
 	end
 
 	local function applyFontConfig()
-		local fontstr = "";
+		local fontstr = fontConfig.fontface
 
-		if fontConfig.fontface then
-			fontstr = fontConfig.fontface;
+		if fontConfig.fontsize ~= nil and type(fontConfig.fontsize) == "number" then
+			fontstr = fontstr .. ":h" .. fontConfig.fontsize
 		end
 
-		if fontConfig.fontsize then
-			fontstr = string.format("%s:h%i", fontstr, fontConfig.fontsize);
+
+		if fontConfig.bold ~= nil and fontConfig.bold == true then
+			fontstr = fontstr .. ":b"
 		end
 
-		if fontConfig.bold then
-			fontstr = fontstr .. ":b";
+		if fontConfig.italicized ~= nil and fontConfig.italicized == true then
+			fontstr = fontstr .. ":i"
 		end
 
-		if fontConfig.italicized then
-			fontstr = fontstr .. ":i";
+		if fontConfig.antialias ~= nil and fontConfig.antialias == false then
+			fontstr = fontstr .. ":#e-alias"
 		end
 
-		if fontConfig.antialias ~= nil then
-			vim.g.neovide_antialiasing = fontConfig.antialias
-		end
+		if fontstr ~= "" or fontstr ~= nil then
+			local success, result = pcall(function()
+				vim.o.guifont = fontstr
+			end)
 
-		if fontstr ~= "" then
-			vim.o.guifont = fontstr;
+			if success then
+				vim.notify("Font: " .. fontConfig.fontface, "info", {
+					title = "Font Config",
+				})
+			else
+				vim.notify(result, "error", {
+					title = "Font Config: Error!",
+				})
+			end
 		end
 	end
 
-	applyWindowConfig();
-	applyFontConfig();
-	applyEditorConfig();
+	applyWindowConfig()
+	applyFontConfig()
+	applyEditorConfig()
 end
 
 return neovide

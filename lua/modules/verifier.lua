@@ -11,7 +11,6 @@ function module.VerifyWindow(windowID)
 		return false
 	end
 end
-
 function module.VerifyBuffer(bufferID)
 	local success, buffer = pcall(function()
 		return vim.api.nvim_buf_is_loaded(bufferID)
@@ -22,6 +21,18 @@ function module.VerifyBuffer(bufferID)
 	else
 		return false
 	end
+end
+function module.VerifyFont(fontface)
+	if fontface ~= nil then
+		vim.notify("No Font Face passed!", "warn")
+		return false
+	end
+
+	local success, result = pcall(function()
+		vim.o.guifont = fontface .. ":h10"
+	end)
+
+	print(success)
 end
 
 return module
