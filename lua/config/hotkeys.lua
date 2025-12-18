@@ -30,30 +30,30 @@ local hotkeys = {
 		-- Escape the terminal
 		{
 			modes = { "t" },
-			hotkey = "Esc",
+			hotkey = "<Esc>",
 			action = function()
 				local terminal_module = require("modules.terminal")
 
 				terminal_module.Escape()
 			end,
 			info = {
-				desc = "Escape the terminal"
-			}
+				desc = "Escape the terminal",
+			},
 		},
 		{
-			modes = {"n"},
+			modes = { "n" },
 			hotkey = "<leader>t",
 			action = function()
 				local terminal_module = require("modules.terminal")
 
 				terminal_module.Toggle()
-			end
+			end,
 		},
 		-- File Explorer
 		{
-			modes = {"n"},
+			modes = { "n" },
 			hotkey = "<leader>e",
-			action = function ()
+			action = function()
 				local success, oil = pcall(function()
 					return require("oil")
 				end)
@@ -65,8 +65,8 @@ local hotkeys = {
 						title = "oil.nvim",
 					})
 				end
-			end
-		}
+			end,
+		},
 	},
 }
 
