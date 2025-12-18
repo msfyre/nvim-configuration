@@ -21,7 +21,13 @@ return {
 						function()
 							local actions = require("oil.actions")
 
-							actions.parent.callback()
+							local success, result = pcall(function()
+								return actions.parent.callback()
+							end)
+
+							if success then
+								vim.cmd("cd ..")
+							end
 						end,
 						mode = "n",
 					},
