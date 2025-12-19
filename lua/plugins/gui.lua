@@ -3,29 +3,39 @@ return {
 	{
 		"rcarriga/nvim-notify",
 		config = function()
-			local notify = require("notify")
+			local notify_macro = require("modules.plugin_macros.notify")
 
-			notify.setup({
+			notify_macro.setup({
 				-- Configuration
 				fps = 60,
-				top_down = false,
+				render = "simple",
+				stages = "static",
 			})
 
-			vim.notify = notify.notify;
-		end
+			vim.notify = notify_macro.notify
+		end,
 	},
 	--#endregion
 	--#region Status Line
 	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		config = function ()
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "iceberg_dark"
-				}
+					theme = "iceberg_dark",
+				},
 			})
-		end
+		end,
+	},
+	--#endregion
+	--#region Tabs
+	{
+		"nanozuki/tabby.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("tabby").setup()
+		end,
 	},
 	--#endregion
 }
