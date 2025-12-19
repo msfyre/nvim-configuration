@@ -13,6 +13,8 @@ local function OpenNew()
 
 	vim.cmd('terminal powershell -NoExit -Command Set-Location "' .. current .. '"')
 
+	vim.b.focus_disable = true
+
 	terminal.Buffer = vim.api.nvim_get_current_buf()
 end
 
@@ -33,7 +35,10 @@ function terminal.Open()
 		-- initiate window
 		vim.cmd([[
 			botright vnew
-			vertical resize 50
+			vertical resize 55
+
+			set wfh
+			set wfw
 		]])
 
 		terminal.Window = vim.api.nvim_get_current_win()

@@ -23,4 +23,19 @@ return {
 		end,
 	},
 	--#endregion
+	--#region Auto-Focus
+	{
+		"nvim-focus/focus.nvim",
+		version = "*",
+		config = function()
+			require("focus").setup({
+				enable = true,
+				autoresize = {
+					minwidth = 10,
+					minheight = 5,
+				},
+			})
+		end,
+	},
+	--#endregion
 }
