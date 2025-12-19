@@ -1,24 +1,28 @@
-local Events = {}
+local initMod = require("lua.modules.init")
 
-Events.VimEnter = function()
-	local initMod = require("lua.modules.init")
+local custom_events = require("custom_events")
 
+local events = {}
+
+events.VimEnter = function()
 	initMod.applyOverrides()
 
-	-- Boot lazy
 	require("config.lazy")
 
-	initMod.applyHotkeys()
-	initMod.applyConfigs()
 	initMod.applyTheme()
+
+	initMod.appluUserCMDs()
+	initMod.applyHotkeys()
+
+	custom_events.OnInitDone()
 end
 
-Events.BufWinEnter = function()
+events.BufWinEnter = function()
 	vim.cmd("silent! loadview")
 end
 
-Events.BufWinLeave = function()
+events.BufWinLeave = function()
 	vim.cmd("silent! mkview")
 end
 
-return Events
+return events
