@@ -16,4 +16,4 @@ end
 
 local initMod = require("lua.modules.init")
 
-initMod.applyAutoCMDs();
+initMod.applyAutoCMDs()

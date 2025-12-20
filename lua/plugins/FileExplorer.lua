@@ -56,7 +56,7 @@ return {
 					},
 				},
 				float = {
-					max_width = 0.75,
+					max_width = 0.5,
 					max_height = 0.75,
 				},
 			})

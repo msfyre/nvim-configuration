@@ -77,13 +77,13 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 
-			local lazyLoadSuccess, result = pcall(function ()
+			local lazyLoadSuccess, result = pcall(function()
 				return require("luasnip.loaders.from_vscode").lazy_load()
 			end)
 
-			if (lazyLoadSuccess) then
+			if lazyLoadSuccess then
 				vim.notify("Loaded!", "info", {
-					title = "CMP Snippets"
+					title = "CMP Snippets",
 				})
 			end
 
@@ -133,17 +133,17 @@ return {
 						{ name = "buffer" },
 					}),
 				}
-				
+
 				return cmp.setup(opts)
 			end)
 
-			if (setupSuccess) then
+			if setupSuccess then
 				vim.notify("Success!", "info", {
-					title = "CMP"
+					title = "CMP",
 				})
 			else
 				vim.notify("Error: " .. result, "warn", {
-					title = "(CMP) Something went wrong!"
+					title = "(CMP) Something went wrong!",
 				})
 			end
 
@@ -166,7 +166,7 @@ return {
 		config = function()
 			local cmp = require("cmp")
 
-			local setupSuccess, result = pcall(function ()
+			local setupSuccess, result = pcall(function()
 				return cmp.setup.cmdline(":", {
 					mapping = cmp.mapping.preset.cmdline(),
 					sources = cmp.config.sources({
@@ -177,13 +177,13 @@ return {
 				})
 			end)
 
-			if (setupSuccess) then
+			if setupSuccess then
 				vim.notify("Ready!", "info", {
-					title = "Command Autocomplete"
+					title = "Command Autocomplete",
 				})
 			else
 				vim.notify("Error: " .. result, "warn", {
-					title = "(CMD Autocomplete) Something went wrong!"
+					title = "(CMD Autocomplete) Something went wrong!",
 				})
 			end
 		end,

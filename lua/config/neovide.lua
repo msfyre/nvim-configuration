@@ -1,6 +1,6 @@
 return {
 	font = {
-		fontface = "GohuFont 11 Nerd Font Mono",
+		fontface = "Agave Nerd Font",
 		fontsize = 11.25,
 		antialias = true,
 		italicized = false,
@@ -15,7 +15,7 @@ return {
 	window = {
 		fullscreen = true,
 		theme = "cyberdream",
-		bgtransparency = 0.5,
+		bgtransparency = 0.8,
 		blurred = false,
 	},
 }
