@@ -1,4 +1,7 @@
 local init = {}
+
+init.initDone = false
+
 function init.applyTheme()
 	local neovide_config = require("lua.config.neovide")
 

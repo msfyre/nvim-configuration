@@ -22,6 +22,13 @@ function module.VerifyBuffer(bufferID)
 		return false
 	end
 end
+function module.VerifyTab(tabID)
+	local success, result = pcall(function()
+		return vim.api.nvim_set_current_tabpage(tabID)
+	end)
+
+	return success
+end
 function module.VerifyFont(fontface)
 	if fontface ~= nil then
 		vim.notify("No Font Face passed!", "warn")
