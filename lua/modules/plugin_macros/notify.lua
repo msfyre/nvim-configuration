@@ -4,6 +4,18 @@ end)
 
 local macro = {}
 
+macro.Queue = {}
+
+function macro.addToQueue(text, level, opts)
+	local notifData = {
+		text = text,
+		level = level,
+		opts = opts,
+	}
+
+	table.insert(macro.Queue, notifData)
+end
+
 function macro.setup(opts)
 	if not notifyInstalled then
 		return
@@ -17,13 +29,14 @@ function macro.notify(text, level, opts)
 		return
 	end
 
-	local on_open = function()
-		-- Play SFX here
+	macro.addToQueue(text, level, opts)
+
+	for i, notification in ipairs(macro.Queue) do
+		coroutine.wrap(notifyPlugin.notify)(notification.text, notification.level, notification.opts)
+
+		-- Eliminate it from the queue since it's no longer needed.
+		macro.Queue[i] = nil
 	end
-
-	opts["on_open"] = on_open
-
-	notifyPlugin.notify(text, level, opts)
 end
 
 return macro
