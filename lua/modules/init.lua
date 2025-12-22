@@ -30,23 +30,6 @@ function init.applyAutoCMDs()
 		})
 	end
 end
-function init.appluUserCMDs()
-	local commands = require("config.commands")
-
-	for i, command in pairs(commands) do
-		local success, result = pcall(function()
-			return vim.api.nvim_create_user_command(command.name, command.action, {
-				desc = command.desc,
-			})
-		end)
-
-		if not success then
-			vim.notify(result, "error", {
-				title = "User CMD Error!",
-			})
-		end
-	end
-end
 
 function init.applyHotkeys()
 	local hotkeys = require("lua.config.hotkeys")

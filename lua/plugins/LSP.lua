@@ -1,189 +1,127 @@
 return {
-	--#region Mason
-	{
-		"mason-org/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"mason-org/mason-lspconfig.nvim",
-		dependencies = {
-			"mason-org/mason.nvim",
-			"neovim/nvim-lspconfig",
-		},
-		config = function()
-			require("mason-lspconfig").setup()
-		end,
-	},
-	--#endregion
-	--#region Linting & Formatting
-	{
-		"mfussenegger/nvim-lint",
-		event = { "BufEnter", "BufWritePost" },
-		config = function()
-			local lint = require("lint")
-
-			lint.linters_by_ft = {
-				javascript = { "eslint" },
-				typescript = { "eslint" },
-				typescriptreact = { "eslint" },
-				markdown = { "markdownlint" },
-			}
-
-			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-				callback = function()
-					lint.try_lint()
-
-					vim.notify("Lint complete.", vim.log.levels.INFO, {
-						title = "Linter",
-					})
-				end,
-			})
-		end,
-	},
-	{
-		"stevearc/conform.nvim",
-		event = { "BufWritePost" },
-		config = function()
-			local conform = require("conform")
-
-			conform.setup({
-				formatters_by_ft = {
-					lua = { "stylua" },
-					javascript = { "prettierd" },
-					typescript = { "prettierd" },
-					typescriptreact = { "prettierd" },
-				},
-				format_on_save = true,
-			})
-		end,
-	},
-	--#endregion
 	--#region Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
+			-- Mason
+			"mason-org/mason.nvim",
+			"mason-org/mason-lspconfig.nvim",
+
+			-- Essential
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"saadparwaiz1/cmp_luasnip",
-			"L3MON4D3/LuaSnip", -- snippet engine
-			"onsails/lspkind.nvim",
-			"rafamadriz/friendly-snippets",
+			"FelipeLema/cmp-async-path", -- cmp-path freezes nvim if project is big so it's async_path instead
+			"hrsh7th/cmp-cmdline",
+
+			-- Linting & Formatting
+			"mfussenegger/nvim-lint",
+			"stevearc/conform.nvim",
+
+			-- Snippets
+			"dcampos/nvim-snippy",
+			"dcampos/cmp-snippy",
+
+			-- Icons
+			"hrsh7th/cmp-emoji",
 		},
-		event = { "BufReadPost", "InsertEnter" },
 		config = function()
 			local cmp = require("cmp")
-			local luasnip = require("luasnip")
 
-			local lazyLoadSuccess, result = pcall(function()
-				return require("luasnip.loaders.from_vscode").lazy_load()
+			local snipsuccess, snippy = pcall(function()
+				return require("snippy")
 			end)
 
-			if lazyLoadSuccess then
-				vim.notify("Loaded!", "info", {
-					title = "CMP Snippets",
+			local lspsuccess, result = pcall(function()
+				require("mason").setup()
+				require("mason-lspconfig").setup({
+					ensure_installed = {
+						-- Typescript
+						"denols",
+						"ts_ls",
+						-- Lua
+						"lua_ls",
+					},
+					automatic_installation = true,
 				})
-			end
+			end)
 
-			local setupSuccess, result = pcall(function()
-				local opts = {
+			local l_fsuccess, result = pcall(function()
+				local conform = require("conform")
+				local lint = require("lint")
+
+				-- Linter config
+				lint.linters_by_ft = {
+					typescript = { "denols", "eslint" },
+				}
+
+				-- Formatter config
+				conform.setup({
+					formatters_by_ft = {
+						lua = { "stylua" },
+						typescript = { "prettier", "prettierd" },
+					},
+				})
+			end)
+
+			local cmpsuccess, result = pcall(function()
+				local function has_words_before()
+					unpack = unpack or table.unpack
+					local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+					return col ~= 0
+						and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+				end
+
+				cmp.setup({
 					snippet = {
 						expand = function(args)
-							luasnip.lsp_expand(args.body)
+							require("snippy").expand_snippet(args.body)
 						end,
 					},
-
 					window = {
 						completion = cmp.config.window.bordered(),
 						documentation = cmp.config.window.bordered(),
 					},
-
 					mapping = cmp.mapping.preset.insert({
-						["<C-Space>"] = cmp.mapping.complete(),
 						["<CR>"] = cmp.mapping.confirm({ select = true }),
-						["<C-e>"] = cmp.mapping.abort(),
-
 						["<Tab>"] = cmp.mapping(function(fallback)
 							if cmp.visible() then
 								cmp.select_next_item()
-							elseif luasnip.expand_or_jumpable() then
-								luasnip.expand_or_jump()
+							elseif snippy.can_expand_or_advance() then
+								snippy.expand_or_advance()
+							elseif has_words_before() then
+								cmp.complete()
 							else
 								fallback()
 							end
 						end, { "i", "s" }),
-
 						["<S-Tab>"] = cmp.mapping(function(fallback)
 							if cmp.visible() then
 								cmp.select_prev_item()
-							elseif luasnip.jumpable(-1) then
-								luasnip.jump(-1)
+							elseif snippy.can_jump(-1) then
+								snippy.previous()
 							else
 								fallback()
 							end
 						end, { "i", "s" }),
 					}),
-
+					completion = {
+						autocomplete = { cmp.TriggerEvent.TextChanged, cmp.TriggerEvent.InsertEnter },
+						completeopt = "menu,menuone",
+					},
 					sources = cmp.config.sources({
 						{ name = "nvim_lsp" },
-						{ name = "luasnip" },
-						{ name = "path" },
+						{ name = "snippy" },
 						{ name = "buffer" },
+						{ name = "async_path" },
+						{ name = "cmdline" },
+						{ name = "emoji" },
 					}),
-				}
-
-				return cmp.setup(opts)
+				})
 			end)
 
-			if setupSuccess then
+			if cmpsuccess then
 				vim.notify("Success!", "info", {
-					title = "CMP",
-				})
-			else
-				vim.notify("Error: " .. result, "warn", {
-					title = "(CMP) Something went wrong!",
-				})
-			end
-
-			vim.lsp.config("lua_ls", {
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim" },
-						},
-					},
-				},
-			})
-		end,
-	},
-	{
-		"hrsh7th/cmp-cmdline",
-		dependencies = {
-			"hrsh7th/nvim-cmp",
-		},
-		config = function()
-			local cmp = require("cmp")
-
-			local setupSuccess, result = pcall(function()
-				return cmp.setup.cmdline(":", {
-					mapping = cmp.mapping.preset.cmdline(),
-					sources = cmp.config.sources({
-						{ name = "path" }, -- For file path completion
-					}, {
-						{ name = "cmdline" }, -- For Neovim command completion
-					}),
-				})
-			end)
-
-			if setupSuccess then
-				vim.notify("Ready!", "info", {
-					title = "Command Autocomplete",
-				})
-			else
-				vim.notify("Error: " .. result, "warn", {
-					title = "(CMD Autocomplete) Something went wrong!",
+					title = "nvim-cmp Setup",
 				})
 			end
 		end,
