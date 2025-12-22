@@ -1,5 +1,4 @@
 local initMod = require("lua.modules.init")
-
 local custom_events = require("custom_events")
 
 local events = {}

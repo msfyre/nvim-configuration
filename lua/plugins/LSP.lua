@@ -31,7 +31,7 @@ return {
 				return require("snippy")
 			end)
 
-			local lspsuccess, result = pcall(function()
+			local lspsuccess, lspresult = pcall(function()
 				require("mason").setup()
 				require("mason-lspconfig").setup({
 					ensure_installed = {
@@ -45,7 +45,7 @@ return {
 				})
 			end)
 
-			local l_fsuccess, result = pcall(function()
+			local l_fsuccess, lfresult = pcall(function()
 				local conform = require("conform")
 				local lint = require("lint")
 
@@ -63,7 +63,7 @@ return {
 				})
 			end)
 
-			local cmpsuccess, result = pcall(function()
+			local cmpsuccess, cmpresult = pcall(function()
 				local function has_words_before()
 					unpack = unpack or table.unpack
 					local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -117,11 +117,19 @@ return {
 						{ name = "emoji" },
 					}),
 				})
+				cmp.setup.cmdline(":", {
+					mapping = cmp.mapping.preset.cmdline(),
+					sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+				})
 			end)
 
 			if cmpsuccess then
 				vim.notify("Success!", "info", {
 					title = "nvim-cmp Setup",
+				})
+			else
+				vim.notify(cmpresult, "error", {
+					title = "nvim-cmp Setup Error!",
 				})
 			end
 		end,
