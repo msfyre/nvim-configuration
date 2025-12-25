@@ -1,8 +1,6 @@
 --!strict
 local neovideConfig = require("lua.config.neovide")
 
-local verifier = require("modules.verifier")
-
 local neovide = {}
 
 function neovide.applyConfig()
@@ -26,19 +24,24 @@ function neovide.applyConfig()
 		if windowConfig.blurred ~= nil then
 			vim.g.neovide_window_blurred = windowConfig.blurred
 		end
+
+		if windowConfig.scroll_anim_length ~= nil then
+			vim.g.neovide_scroll_animation_length = windowConfig.scroll_anim_length
+		end
 	end
 	local function applyEditorConfig()
 		if editorConfig.tabsize then
-			vim.o.tabstop = editorConfig.tabsize
-			vim.o.shiftwidth = editorConfig.tabsize
+			vim.opt.tabstop = editorConfig.tabsize
+			vim.opt.shiftwidth = editorConfig.tabsize
 		end
 
 		if editorConfig.useSpaces ~= nil then
-			vim.o.expandtab = editorConfig.useSpaces
+			vim.opt.expandtab = editorConfig.useSpaces
 		end
 
 		if editorConfig.wrapLines ~= nil then
-			vim.o.wrap = editorConfig.wrapLines
+			-- uh...
+			vim.opt.wrap = editorConfig.wrapLines
 		end
 
 		if editorConfig.hideMouseWhenTyping ~= nil then
@@ -52,7 +55,6 @@ function neovide.applyConfig()
 		if fontConfig.fontsize ~= nil and type(fontConfig.fontsize) == "number" then
 			fontstr = fontstr .. ":h" .. fontConfig.fontsize
 		end
-
 
 		if fontConfig.bold ~= nil and fontConfig.bold == true then
 			fontstr = fontstr .. ":b"

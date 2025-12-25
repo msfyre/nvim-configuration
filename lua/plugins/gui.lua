@@ -1,5 +1,5 @@
 return {
-	--#region Notifications
+	-- Notifications
 	{
 		"rcarriga/nvim-notify",
 		events = { "VimEnter" },
@@ -17,8 +17,7 @@ return {
 			vim.notify = notify_macro.notify
 		end,
 	},
-	--#endregion
-	--#region Status Line
+	-- Status Line
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -30,8 +29,7 @@ return {
 			})
 		end,
 	},
-	--#endregion
-	--#region Tabs
+	-- Tabs
 	{
 		"nanozuki/tabby.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },

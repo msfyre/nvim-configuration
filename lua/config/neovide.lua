@@ -1,7 +1,7 @@
 return {
 	font = {
 		fontface = "Agave Nerd Font",
-		fontsize = 11.25,
+		fontsize = 10,
 		antialias = true,
 		italicized = false,
 		bold = false,
@@ -17,5 +17,6 @@ return {
 		theme = "cyberdream",
 		bgtransparency = 0.8,
 		blurred = false,
+		scroll_anim_length = 0,
 	},
 }

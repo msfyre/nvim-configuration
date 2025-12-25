@@ -54,16 +54,20 @@ local hotkeys = {
 			modes = { "n" },
 			hotkey = "<leader>e",
 			action = function()
-				local success, oil = pcall(function()
+				local oil_installed, oil = pcall(function()
 					return require("oil")
 				end)
 
-				if success then
+				local tree_installed, nvim_tree = pcall(function()
+					return require("nvim-tree.api")
+				end)
+
+				if oil_installed then
 					oil.toggle_float()
-				else
-					vim.notify("The plugin is not installed!", "error", {
-						title = "oil.nvim",
-					})
+				end
+
+				if tree_installed then
+					nvim_tree.tree.toggle()
 				end
 			end,
 		},

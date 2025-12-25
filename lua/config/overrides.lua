@@ -1,3 +1,4 @@
 return {
-	disable_netrw = true
+	disable_netrw = true,
 }
+

@@ -1,5 +1,4 @@
 local initMod = require("lua.modules.init")
-local custom_events = require("custom_events")
 
 local events = {}
 
@@ -9,10 +8,7 @@ events.VimEnter = function()
 	require("config.lazy")
 
 	initMod.applyTheme()
-
 	initMod.applyHotkeys()
-
-	custom_events.OnInitDone()
 end
 
 events.BufWinEnter = function()
@@ -32,37 +28,32 @@ events.BufWritePre = function(args)
 	end)
 
 	if lint_installed then
-		local lint_success, result = pcall(function()
-			return lint.try_lint()
-		end)
+		vim.schedule(function()
+			local ok, err = pcall(lint.try_lint)
 
-		if lint_success then
-			vim.notify("Success!", "info", {
-				title = "Lint Status",
-			})
-		else
-			vim.notify(result, "error", {
-				title = "Lint Error!",
-			})
-		end
+			if not ok then
+				vim.notify(err, "error", {
+					title = "Lint error!",
+				})
+			end
+		end)
 	end
 
 	if conform_installed then
-		local format_success, result = pcall(function()
-			return conform.format({ bufnr = args.buf })
-		end)
+		vim.schedule(function()
+			local ok, err = pcall(conform.format, {
+				bufnr = args.buf,
+			})
 
-		if format_success then
-			vim.notify("Success!", "info", {
-				title = "Format Status",
-			})
-		else
-			vim.notify(result, "error", {
-				title = "Format Error!",
-			})
-		end
+			if not ok then
+				vim.notify(err, "error", {
+					title = "Formatting error!",
+				})
+			end
+		end)
 	end
 end
+
 events.BufWritePost = function(args)
 	vim.notify("File: " .. args.file, "info", {
 		title = "Saved!",

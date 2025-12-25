@@ -48,8 +48,8 @@ function init.applyOverrides()
 	vim.cmd("set all&")
 
 	local overrides = require("lua.config.overrides")
-	local success, neotree = pcall(function()
-		return require("neotree")
+	local success, oil= pcall(function()
+		return require("oil")
 	end)
 
 	if overrides.disable_netrw and not success then

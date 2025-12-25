@@ -1,11 +1,11 @@
 -- set package.path to include the Neovim config directory
-config_path = vim.fn.stdpath("config")
+ConfigPath = vim.fn.stdpath("config")
 
 local lua_paths = {
-	config_path .. "/?.lua",
-	config_path .. "/?/init.lua",
-	config_path .. "/lua/?.lua",
-	config_path .. "/lua/?/init.lua",
+	ConfigPath .. "/?.lua",
+	ConfigPath .. "/?/init.lua",
+	ConfigPath .. "/lua/?.lua",
+	ConfigPath .. "/lua/?/init.lua",
 }
 
 for _, p in ipairs(lua_paths) do
@@ -17,3 +17,7 @@ end
 local initMod = require("lua.modules.init")
 
 initMod.applyAutoCMDs()
+
+if vim.g.neovide then
+	require("after.neovide.config")
+end
