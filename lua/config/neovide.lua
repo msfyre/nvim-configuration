@@ -19,4 +19,7 @@ return {
 		blurred = false,
 		scroll_anim_length = 0,
 	},
+	text = {
+		comment_style = "italic",
+	},
 }

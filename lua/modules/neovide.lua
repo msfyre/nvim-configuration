@@ -11,6 +11,7 @@ function neovide.applyConfig()
 	local fontConfig = neovideConfig.font or {}
 	local editorConfig = neovideConfig.editor or {}
 	local windowConfig = neovideConfig.window or {}
+	local textConfig = neovideConfig.text or {}
 
 	local function applyWindowConfig()
 		if windowConfig.fullscreen ~= nil then
@@ -84,10 +85,22 @@ function neovide.applyConfig()
 			end
 		end
 	end
+	local function applyTextConfig()
+		if textConfig.comment_style ~= nil then
+			if textConfig.comment_style == "bold" then
+				vim.api.nvim_set_hl(0, "Comment", { bold = true })
+			elseif textConfig.comment_style == "italic" then
+				vim.api.nvim_set_hl(0, "Comment", { italic = true })
+			elseif textConfig.comment_style == "bolditalic" then
+				vim.api.nvim_set_hl(0, "Comment", { bold = true, italic = true })
+			end
+		end
+	end
 
 	applyWindowConfig()
 	applyFontConfig()
 	applyEditorConfig()
+	applyTextConfig()
 end
 
 return neovide
