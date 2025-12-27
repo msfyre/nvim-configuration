@@ -2,6 +2,11 @@ local hotkeys = require("lua.config.Hotkeys")
 
 vim.cmd("mapclear!")
 
+if hotkeys.leader ~= nil then
+	vim.g.mapleader = hotkeys.leader
+	vim.g.maplocalleader = hotkeys.leader
+end
+
 for i, keymap in pairs(hotkeys.mappings) do
 	if keymap.modes == nil or keymap.action == nil then
 		goto continue

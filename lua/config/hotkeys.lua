@@ -51,7 +51,15 @@ local hotkeys = {
 			end,
 		},
 		-- Lint & Format
-		{},
+		{
+			modes = { "n", "v" },
+			hotkey = "<leader>l",
+			action = function()
+				local lint_module = require("modules.Editor.Lint")
+
+				lint_module.Lint()
+			end,
+		},
 	},
 }
 
