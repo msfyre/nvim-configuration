@@ -32,7 +32,7 @@ local hotkeys = {
 			modes = { "t" },
 			hotkey = "<Esc>",
 			action = function()
-				local terminal_module = require("modules.terminal")
+				local terminal_module = require("modules.GUI.Terminal")
 
 				terminal_module.Escape()
 			end,
@@ -41,34 +41,12 @@ local hotkeys = {
 			},
 		},
 		{
-			modes = { "n" },
+			modes = { "n", "v" },
 			hotkey = "<leader>t",
 			action = function()
-				local terminal_module = require("modules.terminal")
+				local terminal_module = require("modules.GUI.Terminal")
 
 				terminal_module.Toggle()
-			end,
-		},
-		-- File Explorer
-		{
-			modes = { "n" },
-			hotkey = "<leader>e",
-			action = function()
-				local oil_installed, oil = pcall(function()
-					return require("oil")
-				end)
-
-				local tree_installed, nvim_tree = pcall(function()
-					return require("nvim-tree.api")
-				end)
-
-				if oil_installed then
-					oil.toggle_float()
-				end
-
-				if tree_installed then
-					nvim_tree.tree.toggle()
-				end
 			end,
 		},
 	},

@@ -1,4 +1,4 @@
-local verifier = require("modules.verifier")
+local verifier = require("modules.Utilities.Verifier")
 
 local terminal = {}
 

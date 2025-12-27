@@ -40,7 +40,6 @@ events.BufWritePre = function(args)
 			end
 		end)
 	end
-
 	if conform_installed then
 		vim.schedule(function()
 			local ok, err = pcall(conform.format, {
@@ -55,7 +54,6 @@ events.BufWritePre = function(args)
 		end)
 	end
 end
-
 events.BufWritePost = function(args)
 	vim.notify("File: " .. args.file, "info", {
 		title = "Saved!",
