@@ -7,9 +7,13 @@ function module.LoadPlugin(plugin)
 	if loadable then
 		return result
 	else
-		return vim.notify(result, "error", {
-			title = "Failed to load plugin!",
-		})
+		vim.notify(
+			("require('%s') failed:\n%s"):format(plugin, result),
+			vim.log.levels.ERROR,
+			{ title = "Failed to load plugin!" }
+		)
+
+		return nil
 	end
 end
 
