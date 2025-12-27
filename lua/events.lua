@@ -1,14 +1,16 @@
-local initMod = require("lua.modules.init")
-
 local events = {}
 
 events.VimEnter = function()
-	initMod.applyOverrides()
+	require("modules.Initialization.Overrides")
 
-	require("config.lazy")
+	require("config.Lazy")
 
-	initMod.applyTheme()
-	initMod.applyHotkeys()
+	require("modules.Initialization.Theme")
+	require("modules.Initialization.Hotkeys")
+
+	if vim.g.neovide then
+		require("after.Neovide.Apply")
+	end
 end
 
 events.BufWinEnter = function()

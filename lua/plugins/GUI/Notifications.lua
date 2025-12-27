@@ -2,9 +2,9 @@ return {
 	"rcarriga/nvim-notify",
 	events = { "VimEnter" },
 	config = function()
-		local notify_macro = require("modules.plugin_macros.notify")
+		local notify = require("notify")
 
-		notify_macro.setup({
+		notify.setup({
 			-- Configuration
 			fps = 60,
 			top_down = false,
@@ -12,6 +12,6 @@ return {
 			stages = "slide_out",
 		})
 
-		vim.notify = notify_macro.notify
+		vim.notify = notify.notify
 	end,
 }

@@ -14,10 +14,4 @@ for _, p in ipairs(lua_paths) do
 	end
 end
 
-local initMod = require("lua.modules.init")
-
-initMod.applyAutoCMDs()
-
-if vim.g.neovide then
-	require("after.neovide.config")
-end
+require("modules.Initialization.AutoCMDs")
