@@ -40,6 +40,7 @@ local hotkeys = {
 				desc = "Escape the terminal",
 			},
 		},
+		-- Terminal window
 		{
 			modes = { "n", "v" },
 			hotkey = "<leader>t",
@@ -49,6 +50,8 @@ local hotkeys = {
 				terminal_module.Toggle()
 			end,
 		},
+		-- Lint & Format
+		{},
 	},
 }
 

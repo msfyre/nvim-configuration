@@ -3,8 +3,8 @@ return {
 	opts = {
 		commands = true,
 		autoresize = {
-			minwidth = 1,
-			minheight = 1,
+			minwidth = 25,
+			minheight = 5,
 		},
 	},
 }

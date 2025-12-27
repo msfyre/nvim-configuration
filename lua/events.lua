@@ -21,25 +21,10 @@ events.BufWinLeave = function()
 end
 
 events.BufWritePre = function(args)
-	local lint_installed, lint = pcall(function()
-		return require("lint")
-	end)
-
 	local conform_installed, conform = pcall(function()
 		return require("conform")
 	end)
 
-	if lint_installed then
-		vim.schedule(function()
-			local ok, err = pcall(lint.try_lint)
-
-			if not ok then
-				vim.notify(err, "error", {
-					title = "Lint error!",
-				})
-			end
-		end)
-	end
 	if conform_installed then
 		vim.schedule(function()
 			local ok, err = pcall(conform.format, {

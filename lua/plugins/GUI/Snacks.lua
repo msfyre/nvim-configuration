@@ -7,8 +7,12 @@ return {
 	lazy = false,
 	priority = 1000,
 	opts = {
-		explorer = { enabled = true },
+		-- GUI
+		explorer = { enabled = true, cwd = true },
 		dashboard = { enabled = true },
+
+		-- Editor
+		indent = { enabled = true },
 	},
 	keys = {
 		-- File Explorer
