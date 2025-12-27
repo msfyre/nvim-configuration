@@ -2,11 +2,12 @@ local events = {}
 
 events.VimEnter = function()
 	require("modules.Initialization.Overrides")
+	require("modules.Initialization.UserCMDs")
+	require("modules.Initialization.Hotkeys")
 
 	require("config.Lazy")
 
 	require("modules.Initialization.Theme")
-	require("modules.Initialization.Hotkeys")
 
 	if vim.g.neovide then
 		require("after.Neovide.Apply")
@@ -21,24 +22,9 @@ events.BufWinLeave = function()
 end
 
 events.BufWritePre = function(args)
-	local conform_installed, conform = pcall(function()
-		return require("conform")
-	end)
-
-	if conform_installed then
-		vim.schedule(function()
-			local ok, err = pcall(conform.format, {
-				bufnr = args.buf,
-			})
-
-			if not ok then
-				vim.notify(err, "error", {
-					title = "Formatting error!",
-				})
-			end
-		end)
-	end
+	require("modules.Editor.Format").Format(args)
 end
+
 events.BufWritePost = function(args)
 	vim.notify("File: " .. args.file, "info", {
 		title = "Saved!",

@@ -1,7 +1,7 @@
 return {
 	font = {
-		fontface = "Agave Nerd Font",
-		fontsize = 10,
+		fontface = "JetBrainsMono NF", -- VERBATIM SETTING!
+		fontsize = 8,
 		antialias = true,
 		italicized = false,
 		bold = false,

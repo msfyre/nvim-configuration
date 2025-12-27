@@ -35,7 +35,7 @@ function terminal.Open()
 		-- initiate window
 		vim.cmd([[
 			botright vnew
-			vertical resize 55
+			vertical resize 45
 
 			set wfh
 			set wfw
