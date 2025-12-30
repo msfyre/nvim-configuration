@@ -5,6 +5,8 @@ events.VimEnter = function()
 	require("modules.Initialization.UserCMDs")
 	require("modules.Initialization.Hotkeys")
 
+	require("modules.Initialization.LSPConfigs")
+
 	require("config.Lazy")
 
 	require("modules.Initialization.Theme")
@@ -22,6 +24,7 @@ events.BufWinLeave = function()
 end
 
 events.BufWritePre = function(args)
+	require("modules.Editor.Lint").Lint()
 	require("modules.Editor.Format").Format(args)
 end
 

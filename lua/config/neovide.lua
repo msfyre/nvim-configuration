@@ -13,7 +13,7 @@ return {
 		hideMouseWhenTyping = true,
 	},
 	window = {
-		fullscreen = true,
+		fullscreen = false,
 		theme = "cyberdream",
 		bgtransparency = 0.8,
 		blurred = false,
