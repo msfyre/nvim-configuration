@@ -16,9 +16,10 @@ return {
 		-- File Explorer
 		explorer = { enabled = true },
 		statuscolumn = { enabled = true },
-
-		-- GUI
 		dashboard = { enabled = true },
+
+		-- Image Preview
+		image = { enabled = true },
 	},
 	keys = {
 		{

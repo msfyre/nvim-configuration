@@ -1,10 +1,16 @@
 local loader = require("modules.Utilities.PluginLoader")
 
 return {
+	-- Themes
 	loader.LoadPlugin("plugins.GUI.Themes"),
-	loader.LoadPlugin("plugins.GUI.Notifications"),
-	loader.LoadPlugin("plugins.GUI.Status Line"),
-	loader.LoadPlugin("plugins.GUI.Command Line"),
+
+	-- File Explorer
 	loader.LoadPlugin("plugins.GUI.Snacks"),
-	loader.LoadPlugin("plugins.GUI.Tabs"),
+
+	-- Individual components
+	loader.LoadPlugin("plugins.GUI.Notifications"), -- Notifications
+	loader.LoadPlugin("plugins.GUI.Status Line"), -- Status Line
+	loader.LoadPlugin("plugins.GUI.Tabs"), -- Tabs
+
+	loader.LoadPlugin("plugins.GUI.Focus"), -- Autofocus
 }
