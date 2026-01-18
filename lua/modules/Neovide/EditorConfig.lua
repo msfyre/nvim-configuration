@@ -1,7 +1,7 @@
 local module = {}
 
 function module.Apply()
-	local neovideConfig = require("lua.config.neovide")
+	local neovideConfig = require("lua.config.Neovide")
 
 	local editorConfig = neovideConfig.editor or {}
 

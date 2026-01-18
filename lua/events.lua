@@ -1,7 +1,6 @@
 local events = {}
 
 events.VimEnter = function()
-	require("modules.Initialization.Overrides")
 	require("modules.Initialization.UserCMDs")
 	require("modules.Initialization.Hotkeys")
 
@@ -18,6 +17,7 @@ end
 
 events.BufWinEnter = function()
 	vim.cmd("silent! loadview")
+	require("modules.Editor.Lint").Lint()
 end
 events.BufWinLeave = function()
 	vim.cmd("silent! mkview")
@@ -29,6 +29,7 @@ events.BufWritePre = function(args)
 end
 
 events.BufWritePost = function(args)
+	vim.cmd("silent! mkview")
 	vim.notify("File: " .. args.file, "info", {
 		title = "Saved!",
 	})
