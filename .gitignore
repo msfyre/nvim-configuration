@@ -1,2 +1,5 @@
 # Package lock
 lazy-lock.json
+
+# Custom Plugins
+CustomPlugins/

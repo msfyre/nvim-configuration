@@ -7,6 +7,7 @@ return {
 			},
 			ui = {
 				winhighlight = true,
+				minwidth = 5,
 			},
 		},
 	},

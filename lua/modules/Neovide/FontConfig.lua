@@ -1,43 +1,30 @@
-local module = {}
+local verifier = require("modules.Utilities.Verifier")
+local nvideConfig = require("config.Neovide") or nil
 
-function module.Apply()
-	local neovideConfig = require("lua.config.Neovide")
-
-	local fontConfig = neovideConfig.font or {}
-
-	local fontstr = fontConfig.fontface
-
-	if fontConfig.fontsize ~= nil and type(fontConfig.fontsize) == "number" then
-		fontstr = fontstr .. ":h" .. fontConfig.fontsize
-	end
-
-	if fontConfig.bold ~= nil and fontConfig.bold == true then
-		fontstr = fontstr .. ":b"
-	end
-
-	if fontConfig.italicized ~= nil and fontConfig.italicized == true then
-		fontstr = fontstr .. ":i"
-	end
-
-	if fontConfig.antialias ~= nil and fontConfig.antialias == false then
-		fontstr = fontstr .. ":#e-alias"
-	end
-
-	if fontstr ~= "" or fontstr ~= nil then
-		local config_success, result = pcall(function()
-			vim.o.guifont = fontstr
-		end)
-
-		if config_success then
-			vim.notify("Font: " .. fontConfig.fontface, "info", {
-				title = "Font Config",
-			})
-		else
-			vim.notify(result, "error", {
-				title = "Font Config: Error!",
-			})
-		end
-	end
+if nvideConfig == nil then
+	return
 end
 
-return module
+local fontString = ""
+
+if nvideConfig.font.fontface ~= nil and verifier.VerifyFont(nvideConfig.font.fontface) then
+	fontString = nvideConfig.font.fontface
+else
+	fontString = "monospace"
+end
+
+if nvideConfig.font.fontsize ~= nil then
+	fontString = fontString .. ":h" .. tostring(nvideConfig.font.fontsize)
+else
+	fontString = fontString .. ":h12"
+end
+
+if nvideConfig.font.bold == true then
+	fontString = fontString .. ":b"
+end
+
+if nvideConfig.font.italicized == true then
+	fontString = fontString .. ":i"
+end
+
+vim.o.guifont = fontString

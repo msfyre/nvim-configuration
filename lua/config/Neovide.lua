@@ -1,26 +1,18 @@
 return {
 	font = {
-		fontface = "Agave Nerd Font Mono", -- VERBATIM SETTING!
-		fontsize = 8,
+		fontface = "JetBrainsMono Nerd Font", -- VERBATIM SETTING!
+		fontsize = 7.5,
 		antialias = true,
 		italicized = false,
 		bold = false,
 	},
 	editor = {
-		tabsize = 2,
-		useSpaces = false,
-		wrapLines = false,
 		hideMouseWhenTyping = true,
 	},
 	window = {
 		fullscreen = false,
-		theme = "cyberdream",
-		bgtransparency = 0.9,
-		blurred = false,
+		bgtransparency = 0.2,
 		scroll_anim_length = 0.1,
-		cursor_anim_length = 0.05,
-	},
-	text = {
-		comment_style = "italic",
+		cursor_anim_length = 0.2,
 	},
 }

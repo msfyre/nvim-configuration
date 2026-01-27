@@ -10,8 +10,10 @@ events.VimEnter = function()
 
 	require("modules.Initialization.Theme")
 
+	require("after.Neovim")
+
 	if vim.g.neovide then
-		require("after.Neovide.Apply")
+		require("after.Neovide")
 	end
 end
 

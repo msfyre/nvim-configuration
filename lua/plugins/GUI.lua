@@ -5,25 +5,31 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		events = "VimEnter",
-		opts = {
-			default_file_explorer = true,
-			view_options = {
-				show_hidden = true,
-			},
-			columns = {
-				"icon",
-				"size",
-			},
-			keymaps = {
-				["<BS>"] = { "actions.parent", mode = "n" },
-				["x"] = { "actions.open_external", mode = "n" },
-			},
-			float = {
-				padding = 2,
-				max_width = 0.55,
-				max_height = 0.45,
-			},
-		},
+		config = function()
+			local oil = require("oil")
+
+			oil.setup({
+				default_file_explorer = true,
+				view_options = {
+					show_hidden = true,
+				},
+				columns = {
+					"icon",
+					"size",
+				},
+				keymaps = {
+					["<BS>"] = { "actions.parent", mode = "n" },
+					["<CR>"] = { "actions.select", mode = "n" },
+
+					["x"] = { "actions.open_external", mode = "n" },
+				},
+				float = {
+					padding = 2,
+					max_width = 0.55,
+					max_height = 0.45,
+				},
+			})
+		end,
 	},
 	{ -- Notifications
 		"rcarriga/nvim-notify",

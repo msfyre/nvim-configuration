@@ -1,3 +1,5 @@
+local shellConfig = require("config.Neovim")
+
 local verifier = require("modules.Utilities.Verifier")
 
 local terminal = {}
@@ -9,9 +11,11 @@ terminal.Window = nil
 terminal.Buffer = nil
 
 local function OpenNew()
-	local current = vim.fn.getcwd()
+	local shell = shellConfig.terminal.shell
 
-	vim.cmd('terminal powershell -NoExit -Command Set-Location "' .. current .. '"')
+	vim.fn.termopen(shell, {
+		cwd = vim.fn.expand("%:p:h"),
+	})
 
 	vim.b.focus_disable = true
 
@@ -35,7 +39,7 @@ function terminal.Open()
 		-- initiate window
 		vim.cmd([[
 			botright vnew
-			vertical resize 45
+			vertical resize 55
 
 			set wfh
 			set wfw

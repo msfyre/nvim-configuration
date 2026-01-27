@@ -1,30 +1,22 @@
-local neovideConfig = require("lua.config.Neovide")
+local nvideConfig = require("config.Neovide") or nil
 
-local windowConfig = neovideConfig.window or {}
-
-local module = {}
-
-function module.Apply()
-	if windowConfig.fullscreen ~= nil then
-		vim.g.neovide_fullscreen = windowConfig.fullscreen
-	end
-
-	if windowConfig.bgtransparency ~= nil then
-		vim.g.neovide_normal_opacity = windowConfig.bgtransparency
-	end
-
-	if windowConfig.blurred ~= nil then
-		vim.g.neovide_window_blurred = windowConfig.blurred
-	end
-
-	if windowConfig.scroll_anim_length ~= nil then
-		vim.g.neovide_scroll_animation_length = windowConfig.scroll_anim_length
-	end
-
-	if windowConfig.cursor_anim_length ~= nil then
-		vim.g.neovide_cursor_animation_length = windowConfig.cursor_anim_length
-	end
+if nvideConfig == nil then
+	return
 end
 
-return module
+if nvideConfig.window.fullscreen ~= nil then
+	vim.g.neovide_fullscreen = nvideConfig.window.fullscreen
+end
 
+if nvideConfig.window.bgtransparency ~= nil then
+	vim.g.neovide_normal_opacity = 1 - nvideConfig.window.bgtransparency
+end
+
+-- Animation lengths
+if nvideConfig.window.cursor_anim_length ~= nil then
+	vim.g.neovide_cursor_animation_length = nvideConfig.window.cursor_anim_length
+end
+
+if nvideConfig.window.scroll_anim_length ~= nil then
+	vim.g.neovide_scroll_animation_length = nvideConfig.window.scroll_anim_length
+end
