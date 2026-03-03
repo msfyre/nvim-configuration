@@ -16,14 +16,31 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
 			"neovim/nvim-lspconfig",
+			"mason-org/mason.nvim",
 		},
-		opts = {
-			automatic_enable = true,
-			ensure_installed = {
-				"lua_ls",
-				"vimls",
-			},
-		},
+		events = "BufWinEnter",
+		config = function()
+			local nvim_lspconfig = require("lspconfig")
+			local lsp_configuration = require("config.LSPs")
+
+			require("mason-lspconfig").setup({
+				automatic_enable = true,
+				ensure_installed = {
+					"lua_ls",
+					"vimls",
+				},
+			})
+
+			for lsp, config in pairs(lsp_configuration) do
+				local success, result = pcall(function()
+					return nvim_lspconfig[lsp].setup(config)
+				end)
+
+				if not success then
+					vim.notify(result, "warn")
+				end
+			end
+		end,
 	},
 	-- #endregion
 	-- #region Language Servers
@@ -43,7 +60,8 @@ return {
 				},
 			},
 
-			"rafamadriz/friendly-snippets", -- Snippets
+			"rafamadriz/friendly-snippets", -- Ordinary Snippets
+			"sudar/vim-arduino-snippets", -- Arduino Snippets
 		},
 		events = "BufReadPost",
 		config = function()
@@ -105,6 +123,13 @@ return {
 		end,
 	},
 	-- #endregion
+	-- #region Highlighting
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = {
+			ensure_installed = { "lua_ls" },
+		},
+	},
 	-- #region Linter & Formatter
 	{ -- Linter
 		"mfussenegger/nvim-lint",

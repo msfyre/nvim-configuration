@@ -16,7 +16,7 @@ local hotkeys = {
 			modes = { "n", "i" },
 			hotkey = "<C-S>",
 			action = function()
-				vim.cmd("w!")
+				vim.cmd("wa!")
 			end,
 			info = {
 				desc = "Save your progress!",
@@ -32,19 +32,6 @@ local hotkeys = {
 				terminal_module.Toggle()
 			end,
 		},
-		-- Escape the terminal
-		{
-			modes = { "t" },
-			hotkey = "<Esc>",
-			action = function()
-				local terminal_module = require("modules.GUI.Terminal")
-
-				terminal_module.Escape()
-			end,
-			info = {
-				desc = "Escape the terminal",
-			},
-		},
 		{ -- Fullscreen Toggle
 			modes = { "n" },
 			hotkey = "<F11>",
@@ -58,13 +45,6 @@ local hotkeys = {
 			info = {
 				desc = "Toggle fullscreen",
 			},
-		},
-		{ -- Oil
-			modes = { "n" },
-			hotkey = "<leader>e",
-			action = function()
-				require("oil").toggle_float()
-			end,
 		},
 	},
 }
