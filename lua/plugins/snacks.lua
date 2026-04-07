@@ -1,17 +1,16 @@
 return {
-  "folke/snacks.nvim",
-  priority = 1000,
-  lazy = false,
-  opts = {
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
-    indent = { enabled = true },
-    notify = { enabled = true, },
-    notifier = {
-      enabled = true,
-      timeout = 10000,
-      top_down = false
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    dependencies = {
+        "nvim-mini/mini.icons",
+        "nvim-tree/nvim-web-devicons",
     },
-    picker = { enabled = true }
-  }
+    opts = {
+        dashboard = { enabled = true },
+        explorer = { enabled = true },
+        indent = { enabled = true },
+        picker = { enabled = true },
+        words = { enabled = true },
+    },
 }
